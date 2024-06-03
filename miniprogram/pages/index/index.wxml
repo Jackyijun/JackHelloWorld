@@ -1,0 +1,11 @@
+<view >
+    <view class="cover">
+        <image src="/images/logo.png" class="logo"/>
+    </view>
+    <view class="title">Hello World</view>
+    <view class="container">
+        <button bindtap="fetchData">Click Me to Get the Most Popular Movie Recently</button>
+        <text>{{message}}</text>
+    </view>
+
+</view>
