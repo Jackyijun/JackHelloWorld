@@ -1,0 +1,1 @@
+<view class="content"><image class="logo" src="/static/logo.png"></image><view>{{a}}</view><button bindtap="{{b}}">Get Hello World</button><view>{{c}}</view></view>
