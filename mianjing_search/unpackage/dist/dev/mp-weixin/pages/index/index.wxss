@@ -1,0 +1,25 @@
+
+.pdf-list {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+.pdf-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+}
+.pdf-icon {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+.pdf-text {
+    font-size: 16px;
+    color: #333;
+    flex: 1;
+}
