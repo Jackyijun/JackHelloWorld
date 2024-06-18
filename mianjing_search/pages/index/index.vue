@@ -6,7 +6,7 @@
             <view v-for="(file, index) in pdfFiles" :key="index" @click="openPdf(file)" class="pdf-item">
                 <image src="/static/pdf-icon.png" mode="aspectFit" class="pdf-icon"/>
                 <text class="pdf-text">{{ file.name }}</text>
-            </view>
+            </view>	
         </view>
     </view>
 </template>
@@ -35,22 +35,23 @@ export default {
             this.pdfFiles = [];
 
             uni.request({
-                url: `http://localhost:3000/get-company-info?company=${this.companyName}`,
-                method: 'GET',
-                success: (res) => {
-                    if (res.data.pdf) {
-                        const base64Data = res.data.pdf;
-                        const fileName = `${this.companyName}.pdf`;
-                        this.decodeAndSavePdf(base64Data, fileName);
-                    } else {
-                        console.error('Error: PDF data not found');
-                    }
-                },
-                fail: (err) => {
-                    console.error('Error retrieving PDF:', err);
-                }
-            });
-        },
+				url: `http://localhost:3000/get-company-info?company=${this.companyName}`,
+				method: 'GET',
+				success: (res) => {
+					if (res.statusCode === 200 && res.data.length > 0) {
+						res.data.forEach(file => {
+							this.decodeAndSavePdf(file.data, file.fileName);
+						});
+					} else {
+						console.error('Error: No matching files found');
+					}
+				},
+				fail: (err) => {
+					console.error('Error retrieving PDF:', err);
+				}
+			});
+		},
+			
         decodeAndSavePdf(base64Data, fileName) {
             const binaryString = this.decodeBase64(base64Data);
             const len = binaryString.length;
@@ -71,11 +72,13 @@ export default {
                 }
             });
         },
+		
         openPdf(file) {
             uni.navigateTo({
                 url: `/pages/pdf-viewer/pdf-viewer?filePath=${encodeURIComponent(file.path)}`
             });
         },
+		
         decodeBase64(input) {
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
             let str = input.replace(/=+$/, '');
